@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DoacaoService } from '../../services/doacao';
 import { ToastService } from '../../services/toast';
-import { Animal, NovoAnimal, ESPECIES } from '../../models/Animal.model';
+import { Animal, Especie, ESPECIES } from '../../models/Animal.model';
 
 @Component({
   selector: 'app-animal-form',
@@ -22,7 +22,10 @@ export class AnimalFormComponent implements OnInit {
 
   readonly especies = ESPECIES;
 
-  animal: Partial<Animal> = { nome: '', especie: undefined, idade: undefined };
+  // Campos do formulário
+  nome:    string           = '';
+  especie: Especie | null   = null;
+  idade:   number | null    = null;
 
   constructor(
     private doacao: DoacaoService,
@@ -37,28 +40,32 @@ export class AnimalFormComponent implements OnInit {
       this.modoEdicao = true;
       this.animalId   = Number(id);
       this.doacao.getAnimalById(this.animalId).subscribe({
-        next:  (a) => (this.animal = { ...a }),
-        error: ()  => this.toast.show('Erro ao carregar animal.', 'erro'),
+        next: (a) => {
+          this.nome    = a.nome;
+          this.especie = a.especie;
+          this.idade   = a.idade;
+        },
+        error: () => this.toast.show('Erro ao carregar animal.', 'erro'),
       });
     }
   }
 
-  private toTitleCase(str: string): string {
-    return str.replace(/\w\S*/g, (txt) =>
-      txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
-    );
+  // Aplica Title Case ao sair do campo — regra da API Flask
+  onNomeBlur(): void {
+    this.nome = this.toTitleCase(this.nome.trim());
   }
 
-  onNomeBlur(): void {
-    if (this.animal.nome) {
-      this.animal.nome = this.toTitleCase(this.animal.nome.trim());
-    }
+  private toTitleCase(str: string): string {
+    return str
+      .split(' ')
+      .map((p) => p.charAt(0).toUpperCase() + p.slice(1).toLowerCase())
+      .join(' ');
   }
 
   private validar(): boolean {
     this.erros = {};
-    const nome = this.animal.nome?.trim() ?? '';
 
+    const nome = this.nome.trim();
     if (!nome)
       this.erros['nome'] = 'Nome é obrigatório.';
     else if (!/^[A-Za-zÀ-ÿ\s]+$/.test(nome))
@@ -70,12 +77,12 @@ export class AnimalFormComponent implements OnInit {
     else if (nome !== this.toTitleCase(nome))
       this.erros['nome'] = 'Cada palavra deve começar com letra maiúscula.';
 
-    if (!this.animal.especie)
+    if (!this.especie)
       this.erros['especie'] = 'Espécie é obrigatória.';
 
-    if (this.animal.idade === undefined || this.animal.idade === null || String(this.animal.idade) === '')
+    if (this.idade === null || this.idade === undefined || String(this.idade) === '')
       this.erros['idade'] = 'Idade é obrigatória.';
-    else if (!Number.isInteger(Number(this.animal.idade)) || Number(this.animal.idade) < 0)
+    else if (!Number.isInteger(Number(this.idade)) || Number(this.idade) < 0)
       this.erros['idade'] = 'Idade deve ser um número inteiro positivo.';
 
     return Object.keys(this.erros).length === 0;
@@ -85,30 +92,37 @@ export class AnimalFormComponent implements OnInit {
     if (!this.validar()) return;
     this.salvando = true;
 
-    // A API não gera ID — enviamos um para o JSON
-    const payload: NovoAnimal = {
-      id:      this.animal.id ?? Date.now(),
-      nome:    this.toTitleCase(this.animal.nome!.trim()),
-      especie: this.animal.especie!,
-      idade:   Number(this.animal.idade),
-    };
+    const nomeFormatado = this.toTitleCase(this.nome.trim());
 
-    const request$ = this.modoEdicao && this.animalId
-      ? this.doacao.atualizarAnimal(this.animalId, payload)
-      : this.doacao.cadastrarAnimal(payload);
+    if (this.modoEdicao && this.animalId) {
+      // PUT — atualiza animal existente
+      this.doacao.atualizarAnimal(this.animalId, {
+        nome:    nomeFormatado,
+        especie: this.especie!,
+        idade:   Number(this.idade),
+      }).subscribe({
+        next:  () => { this.toast.show(`${nomeFormatado} atualizado!`, 'ok'); this.router.navigate(['/animais']); },
+        error: (err) => { this.exibirErroApi(err); this.salvando = false; },
+      });
+    } else {
+      // POST — a API Flask NÃO exige id; envia apenas nome, especie, idade
+      this.doacao.cadastrarAnimal({
+        nome:    nomeFormatado,
+        especie: this.especie!,
+        idade:   Number(this.idade),
+      } as any).subscribe({
+        next:  () => { this.toast.show(`${nomeFormatado} cadastrado!`, 'ok'); this.router.navigate(['/animais']); },
+        error: (err) => { this.exibirErroApi(err); this.salvando = false; },
+      });
+    }
+  }
 
-    request$.subscribe({
-      next: () => {
-        const acao = this.modoEdicao ? 'atualizado' : 'cadastrado';
-        this.toast.show(`${payload.nome} ${acao} com sucesso!`, 'ok');
-        this.router.navigate(['/animais']);
-      },
-      error: (err) => {
-        const msg = err?.error?.erro || err?.error?.Mensagem || 'Erro ao salvar. Verifique os dados.';
-        this.toast.show(msg, 'erro');
-        this.salvando = false;
-      },
-    });
+  private exibirErroApi(err: any): void {
+    const msg =
+      err?.error?.erro ||
+      err?.error?.Mensagem ||
+      'Erro ao salvar. Verifique os dados e tente novamente.';
+    this.toast.show(msg, 'erro');
   }
 
   voltar(): void { this.router.navigate(['/animais']); }

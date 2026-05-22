@@ -11,38 +11,42 @@
       <div class="field">
         <label class="field__label">Nome completo *</label>
         <input class="field__input" [class.field__input--error]="erros['nome']"
-               type="text" [(ngModel)]="usuario.nome" name="nome"
+               type="text" [(ngModel)]="nome" name="nome"
                placeholder="Ana Vitoria"/>
+        <span class="field__hint">Somente letras · 2–154 chars · Primeira letra maiúscula</span>
         @if (erros['nome']) { <span class="field__error">{{ erros['nome'] }}</span> }
-        <span class="field__hint">Somente letras · 2–154 caracteres · Primeira letra maiúscula</span>
       </div>
 
       <div class="field">
-        <label class="field__label">CPF * <span class="field__hint--inline">(somente números)</span></label>
+        <label class="field__label">
+          CPF * <span class="field__hint--inline">somente 11 números</span>
+        </label>
         <input class="field__input" [class.field__input--error]="erros['cpf']"
-               type="text" [(ngModel)]="usuario.cpf" name="cpf"
-               placeholder="11 dígitos sem pontuação" maxlength="14"/>
+               type="text" [(ngModel)]="cpf" name="cpf"
+               placeholder="12345678901" maxlength="14"/>
         @if (erros['cpf']) { <span class="field__error">{{ erros['cpf'] }}</span> }
       </div>
 
       <div class="field">
-        <label class="field__label">Telefone * <span class="field__hint--inline">(somente números, com DDD)</span></label>
+        <label class="field__label">
+          Telefone * <span class="field__hint--inline">11 números com DDD</span>
+        </label>
         <input class="field__input" [class.field__input--error]="erros['telefone']"
-               type="text" [(ngModel)]="usuario.telefone" name="telefone"
-               placeholder="11 dígitos ex: 44999998888" maxlength="15"/>
+               type="text" [(ngModel)]="telefone" name="telefone"
+               placeholder="44999998888" maxlength="15"/>
         @if (erros['telefone']) { <span class="field__error">{{ erros['telefone'] }}</span> }
       </div>
 
       <div class="field">
         <label class="field__label">E-mail *</label>
         <input class="field__input" [class.field__input--error]="erros['email']"
-               type="email" [(ngModel)]="usuario.email" name="email"
+               type="email" [(ngModel)]="email" name="email"
                placeholder="seu@email.com"/>
         @if (erros['email']) { <span class="field__error">{{ erros['email'] }}</span> }
       </div>
 
       <button class="btn-amber btn-salvar" (click)="salvar()" [disabled]="salvando">
-        {{ salvando ? 'Salvando…' : 'Salvar cadastro' }}
+        {{ salvando ? 'Salvando…' : usuarioId ? 'Salvar alterações' : 'Cadastrar' }}
       </button>
     </aside>
 
@@ -50,9 +54,6 @@
     <section class="perfil-endereco">
       <h2 class="perfil-endereco__titulo">Endereço</h2>
       <hr class="perfil-endereco__rule">
-      <p class="perfil-endereco__info">
-        Preencha os campos abaixo. O endereço será salvo como texto simples.
-      </p>
 
       <!-- CEP + cidade -->
       <div class="perfil-endereco__row">
@@ -61,7 +62,8 @@
           <div class="field__with-btn">
             <input class="field__input" type="text" [(ngModel)]="cep" name="cep"
                    placeholder="00000-000" (keyup.enter)="buscarCep()"/>
-            <button class="btn-amber-sm" (click)="buscarCep()" [disabled]="buscandoCep">
+            <button class="btn-amber-sm" type="button"
+                    (click)="buscarCep()" [disabled]="buscandoCep">
               {{ buscandoCep ? '…' : 'Buscar' }}
             </button>
           </div>
@@ -111,10 +113,11 @@
         </div>
       </div>
 
-      @if (usuario.endereco) {
+      <!-- Preview do endereço que será salvo -->
+      @if (endereco) {
         <div class="field">
           <label class="field__label">Endereço que será salvo</label>
-          <div class="endereco-preview">{{ usuario.endereco }}</div>
+          <div class="endereco-preview">{{ endereco }}</div>
           @if (erros['endereco']) { <span class="field__error">{{ erros['endereco'] }}</span> }
         </div>
       }

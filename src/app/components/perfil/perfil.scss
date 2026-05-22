@@ -5,23 +5,26 @@ $amber: #d4a843; $amber-d: #b8902e; $brown: #5c3a1e; $cream: #f0ebe0; $beige: #e
 
 .perfil-page { min-height: calc(100vh - 61px); background: $cream; padding: 3rem 1.5rem 4rem; display: flex; justify-content: center; }
 
-.perfil-page__inner { width: 100%; max-width: 980px; display: grid; grid-template-columns: 320px 1fr; gap: 4rem; align-items: start;
+.perfil-page__inner {
+  width: 100%; max-width: 980px; display: grid;
+  grid-template-columns: 320px 1fr; gap: 4rem; align-items: start;
   @media (max-width: 840px) { grid-template-columns: 1fr; gap: 2.5rem; }
 }
 
-.perfil-pessoal { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; .field { width: 100%; } }
+.perfil-pessoal { display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+  .field { width: 100%; }
+}
 
 .perfil-avatar {
   margin-bottom: 0.5rem;
-  &__img { width: 120px; height: 120px; border-radius: 50%; border: 4px dashed #c8a882; background: $beige-l; display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 3.5rem; }
+  &__img { width: 120px; height: 120px; border-radius: 50%; border: 4px dashed #c8a882; background: $beige-l; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
 }
 
 .btn-salvar { width: 100%; margin-top: 0.5rem; padding: 0.85rem; font-size: 0.9rem; }
 
 .perfil-endereco {
   &__titulo { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.5rem; color: $brown; margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
-  &__rule   { border: none; border-top: 1.5px solid $beige; margin: 0 0 0.75rem; }
-  &__info   { font-family: 'Lato', sans-serif; font-size: 0.78rem; color: #9a7a5a; margin: 0 0 1.5rem; }
+  &__rule   { border: none; border-top: 1.5px solid $beige; margin: 0 0 1.5rem; }
   &__row    { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; @media (max-width: 540px) { grid-template-columns: 1fr; } }
 }
 
@@ -30,13 +33,18 @@ $amber: #d4a843; $amber-d: #b8902e; $brown: #5c3a1e; $cream: #f0ebe0; $beige: #e
   &:last-child { margin-bottom: 0; }
   &__label { font-family: 'Lato', sans-serif; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #9a7a5a; }
   &__hint--inline { font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 0.65rem; color: #b09070; }
-  &__input { font-family: 'Lato', sans-serif; font-size: 0.9rem; padding: 0.65rem 0.9rem; border: none; border-radius: 10px; background: $beige-l; color: $brown; outline: none; transition: box-shadow 0.2s; width: 100%; box-sizing: border-box;
-    &:focus { box-shadow: 0 0 0 2px $amber; } &::placeholder { color: #b09070; } &--error { box-shadow: 0 0 0 2px #c0392b; }
+  &__input {
+    font-family: 'Lato', sans-serif; font-size: 0.9rem; padding: 0.65rem 0.9rem;
+    border: none; border-radius: 10px; background: $beige-l; color: $brown;
+    outline: none; transition: box-shadow 0.2s; width: 100%; box-sizing: border-box;
+    &:focus    { box-shadow: 0 0 0 2px $amber; }
+    &::placeholder { color: #b09070; }
+    &--error   { box-shadow: 0 0 0 2px #c0392b; }
   }
   &__with-btn { display: flex; gap: 0.6rem; align-items: center; }
-  &__hint    { font-family: 'Lato', sans-serif; font-size: 0.7rem; color: #b09070; }
-  &__success { font-family: 'Lato', sans-serif; font-size: 0.72rem; color: #27ae60; }
-  &__error   { font-family: 'Lato', sans-serif; font-size: 0.72rem; color: #c0392b; font-weight: 700; }
+  &__hint     { font-family: 'Lato', sans-serif; font-size: 0.7rem; color: #b09070; }
+  &__success  { font-family: 'Lato', sans-serif; font-size: 0.72rem; color: #27ae60; }
+  &__error    { font-family: 'Lato', sans-serif; font-size: 0.72rem; color: #c0392b; font-weight: 700; }
 }
 
 .endereco-preview {
