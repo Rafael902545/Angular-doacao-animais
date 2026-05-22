@@ -1,0 +1,39 @@
+<!-- src/app/components/navbar/navbar.html -->
+<nav class="navbar">
+  <a class="navbar__logo" routerLink="/">
+    <span>ADO</span><span>PTY</span>
+  </a>
+
+  <ul class="navbar__links" [class.navbar__links--open]="menuAberto">
+    <li><a routerLink="/"        routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a></li>
+    <li><a routerLink="/animais" routerLinkActive="active" [queryParams]="{especie:'cachorro'}">Cachorros</a></li>
+    <li><a routerLink="/animais" routerLinkActive="active" [queryParams]="{especie:'gato'}">Gatos</a></li>
+    <li><a routerLink="/animais" routerLinkActive="active" [queryParams]="{especie:'passaro'}">Pássaros</a></li>
+    <li><a routerLink="/animais" routerLinkActive="active" [queryParams]="{especie:'peixe'}">Peixes</a></li>
+    <li><a routerLink="/abrigos" routerLinkActive="active">Abrigos</a></li>
+  </ul>
+
+  <div class="navbar__actions">
+    <button class="navbar__icon-btn" (click)="toggleBusca()" aria-label="Buscar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </button>
+    <a class="navbar__icon-btn" routerLink="/perfil" aria-label="Perfil">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </a>
+    <button class="navbar__icon-btn navbar__hamburger" (click)="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="navbar__search-bar" [class.navbar__search-bar--open]="buscaAberta">
+  <input #buscaInput type="text" placeholder="Buscar animal por nome…"
+         [(ngModel)]="termoBusca" (keyup.enter)="buscar()"/>
+  <button class="btn-amber" (click)="buscar()">Buscar</button>
+  <button class="navbar__icon-btn" (click)="toggleBusca()">✕</button>
+</div>

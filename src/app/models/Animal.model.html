@@ -1,0 +1,13 @@
+<!-- src/app/components/modal-animal/modal-animal.component.html -->
+<div class="modal-overlay" (click)="fecharModal($event)">
+  <div class="modal">
+    <button class="modal-close" (click)="fechar.emit()">✕</button>
+    <h2>{{ animal.nome }}</h2>
+    <div class="modal-info">
+      <p>Espécie: <span>{{ capitalize(animal.especie) }}</span></p>
+      <p>Idade: <span>{{ animal.idade }}</span> ano(s)</p>
+      <p>ID: <span>#{{ animal.id }}</span></p>
+    </div>
+    <span class="badge">Disponível para adoção 🐾</span>
+  </div>
+</div>

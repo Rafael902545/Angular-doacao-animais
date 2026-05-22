@@ -1,0 +1,79 @@
+<!-- src/app/components/home/home.html -->
+
+<section class="hero">
+  <div class="hero__left">
+    <p class="hero__eyebrow">Plataforma de adoção animal</p>
+    <h1 class="hero__headline">
+      <span class="hero__headline--amber">NÃO COMPRE</span><br>
+      <span class="hero__headline--dark">ADOTE.</span>
+    </h1>
+    <hr class="hero__rule">
+    <p class="hero__sub">
+      Centenas de animais esperando por um lar.<br>
+      Adote e transforme uma vida — inclusive a sua.
+    </p>
+    <a routerLink="/animais" class="btn-outline-dark hero__cta">Achar seu novo amigo</a>
+  </div>
+  <div class="hero__right">
+    <div class="hero__img-placeholder"><span>🐾</span></div>
+  </div>
+</section>
+
+<!-- CATEGORIAS -->
+<section class="categorias">
+  <h2 class="section-title">Encontre por espécie</h2>
+  <div class="categorias__grid">
+    @for (cat of categorias; track cat.value) {
+      <a class="cat-card" routerLink="/animais" [queryParams]="{especie: cat.value}">
+        <span class="cat-card__emoji">{{ cat.emoji }}</span>
+        <span class="cat-card__label">{{ cat.label }}</span>
+      </a>
+    }
+  </div>
+</section>
+
+<!-- DESTAQUE -->
+<section class="destaque">
+  <div class="destaque__header">
+    <h2 class="section-title">Animais em destaque</h2>
+    <a routerLink="/animais" class="btn-link">Ver todos →</a>
+  </div>
+
+  @if (carregando) {
+    <div class="destaque__grid">
+      @for (i of [1,2,3,4]; track i) {
+        <div class="animal-card animal-card--skeleton"></div>
+      }
+    </div>
+  } @else {
+    <div class="destaque__grid">
+      @for (animal of animaisDestaque; track animal.id) {
+        <div class="animal-card" (click)="verAnimal(animal.id)">
+          <div class="animal-card__foto">
+            <span class="animal-card__foto-placeholder">{{ getEmoji(animal.especie) }}</span>
+            <span class="animal-card__especie-badge">{{ getLabel(animal.especie) }}</span>
+          </div>
+          <div class="animal-card__info">
+            <h3 class="animal-card__nome">{{ animal.nome }}</h3>
+            <p class="animal-card__meta">
+              {{ getLabel(animal.especie) }} · {{ animal.idade }}
+              {{ animal.idade === 1 ? 'ano' : 'anos' }}
+            </p>
+          </div>
+          <div class="animal-card__footer">
+            <button class="btn-amber-sm">Conhecer</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</section>
+
+<!-- BANNER -->
+<section class="banner-abrigos">
+  <div class="banner-abrigos__content">
+    <h2>Conheça os abrigos parceiros</h2>
+    <p>Veja os abrigos que cuidam desses animais e saiba como ajudar.</p>
+    <a routerLink="/abrigos" class="btn-outline-light">Ver abrigos</a>
+  </div>
+</section>

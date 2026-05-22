@@ -1,0 +1,67 @@
+/* src/app/components/animal-lista/animal-lista.scss */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Lato:wght@400;700&display=swap');
+
+$amber: #d4a843; $amber-d: #b8902e; $brown: #5c3a1e; $cream: #f5f0e8; $beige: #e8d9be;
+
+.lista-page { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 61px); background: $cream;
+  @media (max-width: 900px) { grid-template-columns: 1fr; }
+}
+
+.filtros {
+  padding: 2.5rem 1.5rem; background: #fff; border-right: 1px solid $beige;
+  display: flex; flex-direction: column; gap: 1.75rem;
+  @media (max-width: 900px) { border-right: none; border-bottom: 1px solid $beige; flex-direction: row; flex-wrap: wrap; padding: 1.25rem 1.5rem; gap: 1rem; }
+  &__titulo { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.1rem; color: $brown; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; }
+  &__grupo  { display: flex; flex-direction: column; gap: 0.5rem; }
+  &__label  { font-family: 'Lato', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #9a7a5a; }
+  &__input  { font-family: 'Lato', sans-serif; font-size: 0.875rem; padding: 0.55rem 0.9rem; border: 1.5px solid $beige; border-radius: 8px; background: $cream; color: $brown; outline: none; transition: border-color 0.2s; &:focus { border-color: $amber; } &::placeholder { color: #b09070; } }
+  &__chips  { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+}
+
+.chip { font-family: 'Lato', sans-serif; font-size: 0.78rem; font-weight: 700; padding: 0.35rem 0.8rem; border: 1.5px solid $beige; border-radius: 999px; background: $cream; color: $brown; cursor: pointer; transition: all 0.15s;
+  &:hover { border-color: $amber; }
+  &--ativo { background: $amber; border-color: $amber; color: #fff; }
+}
+.btn-link-red { font-family: 'Lato', sans-serif; font-size: 0.78rem; font-weight: 700; color: #c0392b; background: transparent; border: none; cursor: pointer; text-align: left; padding: 0; &:hover { text-decoration: underline; } }
+
+.lista-conteudo { padding: 2.5rem; @media (max-width: 768px) { padding: 1.5rem; }
+  &__header { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  &__titulo { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 2rem; color: $brown; margin: 0; }
+  &__total  { font-family: 'Lato', sans-serif; font-size: 0.85rem; color: #9a7a5a; background: $beige; padding: 0.2rem 0.75rem; border-radius: 999px; }
+}
+.ml-auto { margin-left: auto; }
+
+.lista-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.25rem; }
+
+.animal-card {
+  background: #fff; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s; border: 1.5px solid transparent;
+  &:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(92,58,30,.13); border-color: $beige; }
+  &__foto { height: 150px; background: $beige; position: relative; display: flex; align-items: center; justify-content: center; }
+  &__foto-placeholder { font-size: 4rem; }
+  &__especie-badge { position: absolute; top: 0.5rem; left: 0.5rem; background: $amber; color: #fff; font-family: 'Lato', sans-serif; font-size: 0.65rem; font-weight: 700; padding: 0.18rem 0.55rem; border-radius: 999px; text-transform: capitalize; }
+  &__info { padding: 0.9rem 1rem 0.4rem; flex: 1; }
+  &__nome { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.15rem; color: $brown; margin: 0 0 0.15rem; }
+  &__meta { font-family: 'Lato', sans-serif; font-size: 0.72rem; color: #9a7a5a; margin: 0; }
+  &__footer { padding: 0.6rem 0.75rem 0.8rem; display: flex; align-items: center; gap: 0.4rem; }
+  &--skeleton { height: 260px; cursor: default; background: linear-gradient(90deg, $beige 25%, #f0e6d0 50%, $beige 75%); background-size: 200% 100%; animation: pulse 1.4s ease infinite; &:hover { transform: none; box-shadow: none; } }
+}
+
+.btn-amber-sm { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.75rem; padding: 0.38rem 0.9rem; background: $amber; color: #fff; border: none; border-radius: 999px; cursor: pointer; transition: background 0.2s; &:hover { background: $amber-d; } }
+.btn-icon-edit, .btn-icon-del { border: none; background: transparent; font-size: 0.9rem; cursor: pointer; padding: 0.2rem; border-radius: 6px; transition: background 0.15s; &:hover { background: $beige; } }
+.btn-icon-edit { margin-left: auto; }
+.btn-amber { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.875rem; padding: 0.55rem 1.3rem; background: $amber; color: #fff; border: none; border-radius: 6px; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s; &:hover { background: $amber-d; } }
+.btn-outline-dark { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.875rem; padding: 0.55rem 1.3rem; border: 2px solid $brown; color: $brown; background: transparent; cursor: pointer; border-radius: 6px; transition: background 0.2s, color 0.2s; &:hover { background: $brown; color: #fff; } }
+.btn-danger { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.875rem; padding: 0.55rem 1.3rem; background: #c0392b; color: #fff; border: none; border-radius: 6px; cursor: pointer; &:hover { background: #a93226; } }
+
+.lista-vazio { display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 4rem 2rem; color: #9a7a5a; font-family: 'Lato', sans-serif; text-align: center; span { font-size: 4rem; opacity: 0.4; } p { font-size: 0.95rem; margin: 0; } }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 200; animation: fadeIn 0.2s ease; }
+.modal { background: #fff; border-radius: 16px; padding: 2rem 2.25rem; max-width: 400px; width: 90%; box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+  h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.4rem; color: $brown; margin: 0 0 0.75rem; }
+  p  { font-family: 'Lato', sans-serif; font-size: 0.9rem; color: #6a5040; line-height: 1.6; margin: 0 0 1.5rem; }
+  &__actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
+}
+
+@keyframes pulse  { 0%, 100% { background-position: 200% 0; } 50% { background-position: -200% 0; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

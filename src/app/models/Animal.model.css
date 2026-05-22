@@ -1,0 +1,68 @@
+/* src/app/components/modal-animal/modal-animal.component.css */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: white;
+  border-radius: 20px;
+  padding: 36px;
+  width: 400px;
+  max-width: 90vw;
+  animation: fadeUp 0.3s ease;
+  position: relative;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--marrom);
+}
+
+.modal h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--marrom);
+  margin-bottom: 20px;
+}
+
+.modal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-info p {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--texto);
+}
+
+.modal-info span { color: var(--marrom-claro); }
+
+.badge {
+  display: inline-block;
+  background: var(--marrom-claro);
+  color: white;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  margin-top: 16px;
+}

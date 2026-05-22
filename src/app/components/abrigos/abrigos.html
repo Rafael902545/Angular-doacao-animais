@@ -1,0 +1,66 @@
+<!-- src/app/components/abrigos/abrigos.html -->
+<div class="abrigos-page">
+
+  <div class="abrigos-hero">
+    <h1 class="abrigos-hero__titulo">Abrigos parceiros</h1>
+    <p class="abrigos-hero__sub">Conheça os abrigos que cuidam dos animais e saiba como apoiar.</p>
+  </div>
+
+  <div class="abrigos-content">
+    @if (carregando) {
+      <div class="abrigos-grid">
+        @for (i of [1,2,3]; track i) {
+          <div class="abrigo-card abrigo-card--skeleton"></div>
+        }
+      </div>
+    } @else if (abrigos.length === 0) {
+      <div class="lista-vazio"><span>🏠</span><p>Nenhum abrigo cadastrado ainda.</p></div>
+    } @else {
+      <div class="abrigos-grid">
+        @for (abrigo of abrigos; track abrigo.id) {
+          <div class="abrigo-card">
+
+            <div class="abrigo-card__foto">
+              @if (abrigo.foto) {
+                <img [src]="abrigo.foto" [alt]="abrigo.nome">
+              } @else {
+                <span class="abrigo-card__foto-placeholder">🏠</span>
+              }
+            </div>
+
+            <div class="abrigo-card__corpo">
+              <h2 class="abrigo-card__nome">{{ abrigo.nome }}</h2>
+              <div class="abrigo-card__meta">
+                <span>📍 {{ abrigo.endereco }}</span>
+                <span>📞 {{ abrigo.telefone }}</span>
+                @if (abrigo.email) { <span>✉️ {{ abrigo.email }}</span> }
+              </div>
+              @if (abrigo.descricao) {
+                <p class="abrigo-card__desc">{{ abrigo.descricao | slice:0:120 }}…</p>
+              }
+            </div>
+
+            <div class="abrigo-card__footer">
+              <button class="btn-amber-sm" (click)="verAnimaisDoAbrigo($event, abrigo.id)">Ver animais</button>
+              <button class="btn-icon-edit" (click)="editarAbrigo($event, abrigo.id)" title="Editar">✏️</button>
+              <button class="btn-icon-del"  (click)="confirmarDeletar($event, abrigo)" title="Remover">🗑️</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+@if (abrigoParaDeletar) {
+  <div class="modal-overlay" (click)="cancelarDeletar()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <h3>Remover abrigo</h3>
+      <p>Tem certeza que deseja remover <strong>{{ abrigoParaDeletar.nome }}</strong>?</p>
+      <div class="modal__actions">
+        <button class="btn-outline-dark" (click)="cancelarDeletar()">Cancelar</button>
+        <button class="btn-danger" (click)="deletarAbrigo()">Sim, remover</button>
+      </div>
+    </div>
+  </div>
+}

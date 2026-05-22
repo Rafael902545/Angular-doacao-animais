@@ -1,0 +1,59 @@
+<!-- src/app/components/animal-form/animal-form.html -->
+<div class="form-page">
+  <div class="form-page__inner">
+
+    <div class="form-page__header">
+      <button class="btn-voltar" (click)="voltar()">← Voltar</button>
+      <h1 class="form-page__titulo">
+        {{ modoEdicao ? 'Editar animal' : 'Cadastrar animal' }}
+      </h1>
+    </div>
+
+    <form class="animal-form" (ngSubmit)="salvar()" novalidate>
+
+      <!-- Nome -->
+      <div class="field">
+        <label class="field__label">Nome *</label>
+        <input class="field__input" [class.field__input--error]="erros['nome']"
+               type="text" name="nome" placeholder="Ex: Rex"
+               [(ngModel)]="animal.nome" (blur)="onNomeBlur()"/>
+        <span class="field__hint">Somente letras · 2–20 caracteres · Primeira letra maiúscula</span>
+        @if (erros['nome']) { <span class="field__error">{{ erros['nome'] }}</span> }
+      </div>
+
+      <!-- Espécie -->
+      <div class="field">
+        <label class="field__label">Espécie *</label>
+        <div class="field__especies">
+          @for (esp of especies; track esp.value) {
+            <label class="especie-card" [class.especie-card--ativo]="animal.especie === esp.value">
+              <input type="radio" [value]="esp.value" name="especie" [(ngModel)]="animal.especie" hidden/>
+              <span class="especie-card__emoji">{{ esp.emoji }}</span>
+              <span class="especie-card__label">{{ esp.label }}</span>
+            </label>
+          }
+        </div>
+        @if (erros['especie']) { <span class="field__error">{{ erros['especie'] }}</span> }
+      </div>
+
+      <!-- Idade -->
+      <div class="field field--half">
+        <label class="field__label">Idade (anos) *</label>
+        <input class="field__input" [class.field__input--error]="erros['idade']"
+               type="number" name="idade" placeholder="Ex: 3"
+               min="0" max="30" [(ngModel)]="animal.idade"/>
+        <span class="field__hint">Número inteiro</span>
+        @if (erros['idade']) { <span class="field__error">{{ erros['idade'] }}</span> }
+      </div>
+
+      <!-- Ações -->
+      <div class="animal-form__actions">
+        <button type="button" class="btn-outline-dark" (click)="voltar()">Cancelar</button>
+        <button type="submit" class="btn-amber" [disabled]="salvando">
+          {{ salvando ? 'Salvando…' : modoEdicao ? 'Salvar alterações' : 'Cadastrar animal' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

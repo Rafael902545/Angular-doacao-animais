@@ -1,0 +1,93 @@
+<!-- src/app/components/animal-lista/animal-lista.html -->
+<div class="lista-page">
+
+  <!-- FILTROS -->
+  <aside class="filtros">
+    <h2 class="filtros__titulo">Filtrar</h2>
+
+    <div class="filtros__grupo">
+      <label class="filtros__label">Nome</label>
+      <input class="filtros__input" type="text" placeholder="Ex: Rex…"
+             [value]="filtroNome"
+             (input)="filtroNome = $any($event.target).value; filtrar()"/>
+    </div>
+
+    <div class="filtros__grupo">
+      <label class="filtros__label">Espécie</label>
+      <div class="filtros__chips">
+        @for (cat of especies; track cat.value) {
+          <button class="chip" [class.chip--ativo]="filtroEspecie === cat.value"
+                  (click)="selecionarEspecie(cat.value)">
+            {{ cat.emoji }} {{ cat.label }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <button class="btn-link-red" (click)="limparFiltros()">✕ Limpar filtros</button>
+  </aside>
+
+  <!-- CONTEÚDO -->
+  <main class="lista-conteudo">
+    <div class="lista-conteudo__header">
+      <h1 class="lista-conteudo__titulo">
+        @if (filtroEspecie) { {{ getLabel(filtroEspecie) }}s }
+        @else { Todos os animais }
+      </h1>
+      @if (!carregando) {
+        <span class="lista-conteudo__total">{{ animaisFiltrados.length }} encontrados</span>
+      }
+      <a routerLink="/animais/novo" class="btn-amber ml-auto">+ Cadastrar animal</a>
+    </div>
+
+    @if (carregando) {
+      <div class="lista-grid">
+        @for (i of [1,2,3,4,5,6]; track i) {
+          <div class="animal-card animal-card--skeleton"></div>
+        }
+      </div>
+    } @else if (animaisFiltrados.length === 0) {
+      <div class="lista-vazio">
+        <span>🐾</span>
+        <p>Nenhum animal encontrado com esses filtros.</p>
+        <button class="btn-outline-dark" (click)="limparFiltros()">Limpar filtros</button>
+      </div>
+    } @else {
+      <div class="lista-grid">
+        @for (animal of animaisFiltrados; track animal.id) {
+          <div class="animal-card">
+            <div class="animal-card__foto">
+              <span class="animal-card__foto-placeholder">{{ getEmoji(animal.especie) }}</span>
+              <span class="animal-card__especie-badge">{{ getLabel(animal.especie) }}</span>
+            </div>
+            <div class="animal-card__info">
+              <h3 class="animal-card__nome">{{ animal.nome }}</h3>
+              <p class="animal-card__meta">
+                {{ animal.idade }} {{ animal.idade === 1 ? 'ano' : 'anos' }}
+              </p>
+            </div>
+            <div class="animal-card__footer">
+              <button class="btn-amber-sm">Conhecer</button>
+              <button class="btn-icon-edit" (click)="editar($event, animal.id)" title="Editar">✏️</button>
+              <button class="btn-icon-del"  (click)="confirmarDeletar($event, animal)" title="Remover">🗑️</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </main>
+</div>
+
+<!-- MODAL -->
+@if (animalParaDeletar) {
+  <div class="modal-overlay" (click)="cancelarDeletar()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <h3>Remover animal</h3>
+      <p>Tem certeza que deseja remover <strong>{{ animalParaDeletar.nome }}</strong>?</p>
+      <div class="modal__actions">
+        <button class="btn-outline-dark" (click)="cancelarDeletar()">Cancelar</button>
+        <button class="btn-danger" (click)="deletar()">Sim, remover</button>
+      </div>
+    </div>
+  </div>
+}

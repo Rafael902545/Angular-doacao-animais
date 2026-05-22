@@ -1,0 +1,118 @@
+/* src/app/components/home/home.scss */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Lato:wght@400;700&display=swap');
+
+$amber: #d4a843; $amber-d: #b8902e; $brown: #5c3a1e; $cream: #f5f0e8; $beige: #e8d9be;
+
+.hero {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - 61px); background: $cream;
+  @media (max-width: 768px) { grid-template-columns: 1fr; min-height: unset; }
+
+  &__left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5rem 3.5rem 4rem; gap: 1.25rem; animation: fadeUp 0.7s ease both;
+    @media (max-width: 768px) { padding: 3rem 1.5rem 2rem; }
+  }
+  &__right {
+    background: $amber; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; animation: fadeIn 0.9s ease both 0.2s;
+    @media (max-width: 768px) { height: 280px; }
+  }
+  &__img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 8rem; opacity: 0.35; }
+  &__eyebrow { font-family: 'Lato', sans-serif; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: $amber; }
+  &__headline {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+    font-size: clamp(2.8rem, 5vw, 4.5rem); line-height: 0.95; margin: 0;
+    &--amber { color: $amber; } &--dark { color: $brown; }
+  }
+  &__rule { border: none; border-top: 3px solid $amber; width: 4rem; margin: 0; }
+  &__sub  { font-family: 'Lato', sans-serif; font-size: 0.95rem; color: #7a5a3a; line-height: 1.6; margin: 0; }
+  &__cta  { align-self: flex-start; }
+}
+
+.btn-outline-dark {
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.875rem;
+  padding: 0.7rem 1.6rem; border: 2px solid $brown; color: $brown;
+  background: transparent; text-decoration: none; display: inline-block; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  &:hover { background: $brown; color: #fff; }
+}
+.btn-outline-light {
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.875rem;
+  padding: 0.7rem 1.6rem; border: 2px solid #fff; color: #fff;
+  background: transparent; text-decoration: none; display: inline-block; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  &:hover { background: #fff; color: $brown; }
+}
+.btn-amber-sm {
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.8rem;
+  padding: 0.45rem 1.1rem; background: $amber; color: #fff; border: none;
+  border-radius: 999px; cursor: pointer; transition: background 0.2s;
+  &:hover { background: $amber-d; }
+}
+.btn-link { font-family: 'Lato', sans-serif; font-size: 0.875rem; font-weight: 700; color: $amber; text-decoration: none; &:hover { color: $amber-d; } }
+.section-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.75rem; color: $brown; margin: 0; }
+
+.categorias {
+  padding: 4rem 3.5rem; background: #fff;
+  @media (max-width: 768px) { padding: 3rem 1.5rem; }
+  &__grid { margin-top: 2rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+    @media (max-width: 600px) { grid-template-columns: repeat(2, 1fr); }
+  }
+}
+.cat-card {
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  padding: 1.5rem 1rem; background: $cream; border-radius: 12px; text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  &:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(92,58,30,.12); }
+  &__emoji { font-size: 2.25rem; }
+  &__label { font-family: 'Lato', sans-serif; font-size: 0.8rem; font-weight: 700; color: $brown; text-transform: uppercase; letter-spacing: 0.06em; }
+}
+
+.destaque {
+  padding: 4rem 3.5rem; background: $cream;
+  @media (max-width: 768px) { padding: 3rem 1.5rem; }
+  &__header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 2rem; }
+  &__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+    @media (max-width: 1024px) { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 480px)  { grid-template-columns: 1fr; }
+  }
+}
+
+.animal-card {
+  background: #fff; border-radius: 14px; overflow: hidden;
+  display: flex; flex-direction: column; cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  &:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(92,58,30,.14); }
+  &__foto { height: 160px; background: $beige; position: relative; display: flex; align-items: center; justify-content: center; }
+  &__foto-placeholder { font-size: 5rem; }
+  &__especie-badge {
+    position: absolute; top: 0.6rem; left: 0.6rem; background: $amber; color: #fff;
+    font-family: 'Lato', sans-serif; font-size: 0.7rem; font-weight: 700;
+    padding: 0.2rem 0.6rem; border-radius: 999px; text-transform: capitalize;
+  }
+  &__info { padding: 1rem 1rem 0.5rem; flex: 1; }
+  &__nome { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.2rem; color: $brown; margin: 0 0 0.2rem; }
+  &__meta { font-family: 'Lato', sans-serif; font-size: 0.75rem; color: #9a7a5a; margin: 0; }
+  &__footer { padding: 0.75rem 1rem 1rem; display: flex; justify-content: flex-end; }
+  &--skeleton {
+    height: 280px; cursor: default;
+    background: linear-gradient(90deg, $beige 25%, #f0e6d0 50%, $beige 75%);
+    background-size: 200% 100%; animation: pulse 1.4s ease infinite;
+    &:hover { transform: none; box-shadow: none; }
+  }
+}
+
+.banner-abrigos {
+  background: $brown; padding: 4rem 3.5rem;
+  display: flex; align-items: center; justify-content: center;
+  @media (max-width: 768px) { padding: 3rem 1.5rem; }
+  &__content { text-align: center; max-width: 520px; display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 2rem; color: #fff; margin: 0; }
+    p  { font-family: 'Lato', sans-serif; font-size: 0.95rem; color: #c8a882; margin: 0; }
+  }
+}
+
+@keyframes fadeUp  { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulse   { 0%, 100% { background-position: 200% 0; } 50% { background-position: -200% 0; } }

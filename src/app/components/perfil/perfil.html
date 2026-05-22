@@ -1,0 +1,124 @@
+<!-- src/app/components/perfil/perfil.html -->
+<div class="perfil-page">
+  <div class="perfil-page__inner">
+
+    <!-- COLUNA ESQUERDA: dados pessoais -->
+    <aside class="perfil-pessoal">
+      <div class="perfil-avatar">
+        <div class="perfil-avatar__img"><span>🐾</span></div>
+      </div>
+
+      <div class="field">
+        <label class="field__label">Nome completo *</label>
+        <input class="field__input" [class.field__input--error]="erros['nome']"
+               type="text" [(ngModel)]="usuario.nome" name="nome"
+               placeholder="Ana Vitoria"/>
+        @if (erros['nome']) { <span class="field__error">{{ erros['nome'] }}</span> }
+        <span class="field__hint">Somente letras · 2–154 caracteres · Primeira letra maiúscula</span>
+      </div>
+
+      <div class="field">
+        <label class="field__label">CPF * <span class="field__hint--inline">(somente números)</span></label>
+        <input class="field__input" [class.field__input--error]="erros['cpf']"
+               type="text" [(ngModel)]="usuario.cpf" name="cpf"
+               placeholder="11 dígitos sem pontuação" maxlength="14"/>
+        @if (erros['cpf']) { <span class="field__error">{{ erros['cpf'] }}</span> }
+      </div>
+
+      <div class="field">
+        <label class="field__label">Telefone * <span class="field__hint--inline">(somente números, com DDD)</span></label>
+        <input class="field__input" [class.field__input--error]="erros['telefone']"
+               type="text" [(ngModel)]="usuario.telefone" name="telefone"
+               placeholder="11 dígitos ex: 44999998888" maxlength="15"/>
+        @if (erros['telefone']) { <span class="field__error">{{ erros['telefone'] }}</span> }
+      </div>
+
+      <div class="field">
+        <label class="field__label">E-mail *</label>
+        <input class="field__input" [class.field__input--error]="erros['email']"
+               type="email" [(ngModel)]="usuario.email" name="email"
+               placeholder="seu@email.com"/>
+        @if (erros['email']) { <span class="field__error">{{ erros['email'] }}</span> }
+      </div>
+
+      <button class="btn-amber btn-salvar" (click)="salvar()" [disabled]="salvando">
+        {{ salvando ? 'Salvando…' : 'Salvar cadastro' }}
+      </button>
+    </aside>
+
+    <!-- COLUNA DIREITA: endereço -->
+    <section class="perfil-endereco">
+      <h2 class="perfil-endereco__titulo">Endereço</h2>
+      <hr class="perfil-endereco__rule">
+      <p class="perfil-endereco__info">
+        Preencha os campos abaixo. O endereço será salvo como texto simples.
+      </p>
+
+      <!-- CEP + cidade -->
+      <div class="perfil-endereco__row">
+        <div class="field">
+          <label class="field__label">CEP</label>
+          <div class="field__with-btn">
+            <input class="field__input" type="text" [(ngModel)]="cep" name="cep"
+                   placeholder="00000-000" (keyup.enter)="buscarCep()"/>
+            <button class="btn-amber-sm" (click)="buscarCep()" [disabled]="buscandoCep">
+              {{ buscandoCep ? '…' : 'Buscar' }}
+            </button>
+          </div>
+          @if (cepOk)   { <span class="field__success">✅ Endereço preenchido!</span> }
+          @if (cepErro) { <span class="field__error">CEP não encontrado.</span> }
+        </div>
+
+        <div class="field">
+          <label class="field__label">Cidade</label>
+          <input class="field__input" type="text" [(ngModel)]="cidade" name="cidade"
+                 placeholder="Sua cidade" (blur)="montarEndereco()"/>
+        </div>
+      </div>
+
+      <!-- Rua -->
+      <div class="field">
+        <label class="field__label">Rua</label>
+        <input class="field__input" type="text" [(ngModel)]="rua" name="rua"
+               placeholder="Rua / Avenida…" (blur)="montarEndereco()"/>
+      </div>
+
+      <!-- Número + complemento -->
+      <div class="perfil-endereco__row">
+        <div class="field">
+          <label class="field__label">Número</label>
+          <input class="field__input" type="text" [(ngModel)]="numero" name="numero"
+                 placeholder="000" (blur)="montarEndereco()"/>
+        </div>
+        <div class="field">
+          <label class="field__label">Complemento</label>
+          <input class="field__input" type="text" [(ngModel)]="complemento" name="complemento"
+                 placeholder="Apto, bloco…" (blur)="montarEndereco()"/>
+        </div>
+      </div>
+
+      <!-- Bairro + UF -->
+      <div class="perfil-endereco__row">
+        <div class="field">
+          <label class="field__label">Bairro</label>
+          <input class="field__input" type="text" [(ngModel)]="bairro" name="bairro"
+                 placeholder="Bairro" (blur)="montarEndereco()"/>
+        </div>
+        <div class="field">
+          <label class="field__label">Estado (UF)</label>
+          <input class="field__input" type="text" [(ngModel)]="estado" name="estado"
+                 placeholder="PR" maxlength="2" (blur)="montarEndereco()"/>
+        </div>
+      </div>
+
+      @if (usuario.endereco) {
+        <div class="field">
+          <label class="field__label">Endereço que será salvo</label>
+          <div class="endereco-preview">{{ usuario.endereco }}</div>
+          @if (erros['endereco']) { <span class="field__error">{{ erros['endereco'] }}</span> }
+        </div>
+      }
+    </section>
+
+  </div>
+</div>
