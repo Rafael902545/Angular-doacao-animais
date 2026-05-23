@@ -1,7 +1,7 @@
 /* src/app/components/home/home.scss */
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Lato:wght@400;700&display=swap');
 
-$amber: #d4a843; $amber-d: #b8902e; $brown: #5c3a1e; $cream: #f5f0e8; $beige: #e8d9be;
+$amber: #d4a843; $amber-d: #b8902e; $amber-text: #8e5d25; $brown: #5a2b15; $cream: #f5f0e8; $beige: #e8d9be;
 
 .hero {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -10,29 +10,38 @@ $amber: #d4a843; $amber-d: #b8902e; $brown: #5c3a1e; $cream: #f5f0e8; $beige: #e
 
   &__left {
     display: flex; flex-direction: column; justify-content: center;
-    padding: 5rem 3.5rem 4rem; gap: 1.25rem; animation: fadeUp 0.7s ease both;
+    padding: 5rem 4.5rem 4rem 5rem; gap: 1.75rem; animation: fadeUp 0.7s ease both;
     @media (max-width: 768px) { padding: 3rem 1.5rem 2rem; }
   }
   &__right {
-    background: $amber; display: flex; align-items: center; justify-content: center;
+    background: $amber; display: flex; align-items: flex-end; justify-content: center;
     overflow: hidden; animation: fadeIn 0.9s ease both 0.2s;
-    @media (max-width: 768px) { height: 280px; }
+    @media (max-width: 768px) { height: 320px; }
   }
-  &__img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 8rem; opacity: 0.35; }
-  &__eyebrow { font-family: 'Lato', sans-serif; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: $amber; }
+  &__img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center center;
+    display: block;
+  }
+  &__eyebrow {
+    font-family: 'Lato', sans-serif; font-size: 0.8rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.14em; color: $amber-text; margin: 0;
+  }
   &__headline {
     font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
-    font-size: clamp(2.8rem, 5vw, 4.5rem); line-height: 0.95; margin: 0;
-    &--amber { color: $amber; } &--dark { color: $brown; }
+    font-size: clamp(3.5rem, 6vw, 6rem); line-height: 0.92; margin: 0;
+    &--amber { color: $amber-text; } &--dark { color: $brown; }
   }
-  &__rule { border: none; border-top: 3px solid $amber; width: 4rem; margin: 0; }
-  &__sub  { font-family: 'Lato', sans-serif; font-size: 0.95rem; color: #7a5a3a; line-height: 1.6; margin: 0; }
-  &__cta  { align-self: flex-start; }
+  &__rule { border: none; border-top: 3px solid $amber; width: 5rem; margin: 0; }
+  &__sub  {
+    font-family: 'Lato', sans-serif; font-size: 1.05rem; color: #5c3a1e;
+    line-height: 1.7; margin: 0;
+  }
+  &__cta  { align-self: flex-start; margin-top: 0.5rem; }
 }
 
 .btn-outline-dark {
-  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.875rem;
-  padding: 0.7rem 1.6rem; border: 2px solid $brown; color: $brown;
+  font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.9rem;
+  padding: 0.85rem 2rem; border: 2px solid $brown; color: $brown;
   background: transparent; text-decoration: none; display: inline-block; cursor: pointer;
   transition: background 0.2s, color 0.2s;
   &:hover { background: $brown; color: #fff; }
@@ -46,11 +55,11 @@ $amber: #d4a843; $amber-d: #b8902e; $brown: #5c3a1e; $cream: #f5f0e8; $beige: #e
 }
 .btn-amber-sm {
   font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.8rem;
-  padding: 0.45rem 1.1rem; background: $amber; color: #fff; border: none;
+  padding: 0.45rem 1.1rem; background: #7a4e1a; color: #fff; border: none;
   border-radius: 999px; cursor: pointer; transition: background 0.2s;
-  &:hover { background: $amber-d; }
+  &:hover { background: $brown; }
 }
-.btn-link { font-family: 'Lato', sans-serif; font-size: 0.875rem; font-weight: 700; color: $amber; text-decoration: none; &:hover { color: $amber-d; } }
+.btn-link { font-family: 'Lato', sans-serif; font-size: 0.875rem; font-weight: 700; color: $amber-text; text-decoration: none; &:hover { color: $brown; } }
 .section-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.75rem; color: $brown; margin: 0; }
 
 .categorias {
@@ -87,13 +96,13 @@ $amber: #d4a843; $amber-d: #b8902e; $brown: #5c3a1e; $cream: #f5f0e8; $beige: #e
   &__foto { height: 160px; background: $beige; position: relative; display: flex; align-items: center; justify-content: center; }
   &__foto-placeholder { font-size: 5rem; }
   &__especie-badge {
-    position: absolute; top: 0.6rem; left: 0.6rem; background: $amber; color: #fff;
+    position: absolute; top: 0.6rem; left: 0.6rem; background: #7a4e1a; color: #fff;
     font-family: 'Lato', sans-serif; font-size: 0.7rem; font-weight: 700;
     padding: 0.2rem 0.6rem; border-radius: 999px; text-transform: capitalize;
   }
   &__info { padding: 1rem 1rem 0.5rem; flex: 1; }
   &__nome { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.2rem; color: $brown; margin: 0 0 0.2rem; }
-  &__meta { font-family: 'Lato', sans-serif; font-size: 0.75rem; color: #9a7a5a; margin: 0; }
+  &__meta { font-family: 'Lato', sans-serif; font-size: 0.75rem; color: #5c3a1e; margin: 0; }
   &__footer { padding: 0.75rem 1rem 1rem; display: flex; justify-content: flex-end; }
   &--skeleton {
     height: 280px; cursor: default;

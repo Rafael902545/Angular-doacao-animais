@@ -8,20 +8,20 @@
   padding: 0.75rem 2.5rem;
   background: #f5f0e8; border-bottom: 1px solid #e0d5c0;
 
-  &__logo {
+  &logo {
     display: flex; flex-direction: column; line-height: 1;
     font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
     font-size: 1.1rem; color: #5c3a1e; text-decoration: none;
   }
 
-  &__links {
+  &links {
     display: flex; list-style: none; margin: 0 auto; padding: 0; gap: 0.25rem;
     li a {
       font-family: 'Lato', sans-serif; font-size: 0.875rem; font-weight: 700;
       color: #5c3a1e; text-decoration: none; padding: 0.4rem 0.85rem;
       border-radius: 999px; transition: background 0.2s, color 0.2s;
       &:hover  { background: #e8d9be; }
-      &.active { background: #d4a843; color: #fff; }
+      &.active { background: #7a4e1a; color: #fff; }
     }
     @media (max-width: 768px) {
       display: none; flex-direction: column; position: fixed;
@@ -31,9 +31,9 @@
     }
   }
 
-  &__actions { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
+  &actions { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
 
-  &__icon-btn {
+  &icon-btn {
     display: flex; align-items: center; justify-content: center;
     width: 2rem; height: 2rem; border: none; background: transparent;
     color: #5c3a1e; cursor: pointer; border-radius: 50%;
@@ -41,29 +41,29 @@
     &:hover { background: #e8d9be; }
   }
 
-  &__hamburger {
+  &hamburger {
     flex-direction: column; gap: 4px; padding: 0.4rem;
     span { display: block; width: 18px; height: 2px; background: #5c3a1e; border-radius: 2px; }
     @media (min-width: 769px) { display: none; }
   }
 
-  &__search-bar {
+  &search-bar {
     display: flex; align-items: center; gap: 0.75rem;
     padding: 0 2.5rem; background: #f5f0e8; border-bottom: 1px solid #e0d5c0;
     max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
     &--open { max-height: 80px; padding: 0.75rem 2.5rem; }
     input {
       flex: 1; font-family: 'Lato', sans-serif; font-size: 0.95rem;
-      padding: 0.5rem 1rem; border: 1.5px solid #d4a843; border-radius: 999px;
+      padding: 0.5rem 1rem; border: 1.5px solid #8a5e0f; border-radius: 999px;
       background: #fff; color: #3a2510; outline: none;
-      &::placeholder { color: #b09070; }
+      &::placeholder { color: #7a5a3a; }
     }
   }
 }
 
 .btn-amber {
   font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.875rem;
-  padding: 0.5rem 1.25rem; background: #d4a843; color: #fff;
+  padding: 0.5rem 1.25rem; background: #7a4e1a; color: #fff;
   border: none; border-radius: 999px; cursor: pointer; transition: background 0.2s;
-  &:hover { background: #b8902e; }
+  &:hover { background: #5c3a1e; }
 }
