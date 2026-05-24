@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Animal, NovoAnimal, Abrigo, Usuario } from '../models/Animal.model';
+import { Animal, Abrigo, Usuario } from '../models/Animal.model';
 
 const API = 'http://localhost:5000';
 
@@ -14,6 +14,13 @@ export interface NovoUsuario {
   telefone: string;  // 11 dígitos numéricos sem máscara
   email: string;
   endereco: string;  // string simples, até 60 chars
+}
+
+// Payload que o POST /animais aceita
+export interface NovoAnimal {
+  nome: string;
+  especie: string;
+  idade: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -33,22 +40,22 @@ export class DoacaoService {
     return this.http.get<Animal>(`${API}/animais/${id}`);
   }
 
-  // POST /animais — envia apenas: nome, especie, idade (sem id, sem campos extras)
   cadastrarAnimal(animal: NovoAnimal): Observable<any> {
-    const payload = {
+    // Envia APENAS os campos que a API aceita
+    return this.http.post(`${API}/animais`, {
       nome:    animal.nome,
       especie: animal.especie,
-      idade:   animal.idade,
-    };
-    return this.http.post(`${API}/animais`, payload);
+      idade:   Number(animal.idade),
+    });
   }
 
   atualizarAnimal(id: number, dados: Partial<Animal>): Observable<any> {
     return this.http.put(`${API}/animais/${id}`, dados);
   }
 
+  // Flask retorna 204 sem body — observe: não tente parsear o body
   deletarAnimal(id: number): Observable<any> {
-    return this.http.delete(`${API}/animais/${id}`);
+    return this.http.delete(`${API}/animais/${id}`, { responseType: 'text' });
   }
 
   getCategorias(): Observable<string[]> {
@@ -68,29 +75,27 @@ export class DoacaoService {
     return this.http.get<Usuario>(`${API}/usuarios/${id}`);
   }
 
-  // POST /usuarios — envia exatamente os campos que o Flask valida
   cadastrarUsuario(usuario: NovoUsuario): Observable<any> {
-    const payload: NovoUsuario = {
+    return this.http.post(`${API}/usuarios`, {
       nome:     usuario.nome,
-      cpf:      usuario.cpf.replace(/\D/g, ''),       // garante só dígitos
-      telefone: usuario.telefone.replace(/\D/g, ''),   // garante só dígitos
+      cpf:      usuario.cpf.replace(/\D/g, ''),
+      telefone: usuario.telefone.replace(/\D/g, ''),
       email:    usuario.email,
-      endereco: usuario.endereco.slice(0, 60),          // garante máx 60 chars
-    };
-    return this.http.post(`${API}/usuarios`, payload);
+      endereco: usuario.endereco.slice(0, 60),
+    });
   }
 
-  // PUT /usuarios/:id — sem validações tão rígidas, mas mantemos a limpeza
   atualizarUsuario(id: number, dados: Partial<NovoUsuario>): Observable<any> {
-    const payload: Partial<NovoUsuario> = { ...dados };
+    const payload = { ...dados };
     if (payload.cpf)      payload.cpf      = payload.cpf.replace(/\D/g, '');
     if (payload.telefone) payload.telefone = payload.telefone.replace(/\D/g, '');
     if (payload.endereco) payload.endereco = payload.endereco.slice(0, 60);
     return this.http.put(`${API}/usuarios/${id}`, payload);
   }
 
+  // Flask retorna 204 sem body
   deletarUsuario(id: number): Observable<any> {
-    return this.http.delete(`${API}/usuarios/${id}`);
+    return this.http.delete(`${API}/usuarios/${id}`, { responseType: 'text' });
   }
 
   // ── ABRIGOS ──────────────────────────────────────────────────────────────
@@ -107,7 +112,8 @@ export class DoacaoService {
     return this.http.put(`${API}/abrigos/${id}`, dados);
   }
 
+  // Flask retorna 204 sem body
   deletarAbrigo(id: number): Observable<any> {
-    return this.http.delete(`${API}/abrigos/${id}`);
+    return this.http.delete(`${API}/abrigos/${id}`, { responseType: 'text' });
   }
 }

@@ -14,15 +14,9 @@
       <!-- Nome -->
       <div class="field">
         <label class="field__label">Nome *</label>
-        <input
-          class="field__input"
-          [class.field__input--error]="erros['nome']"
-          type="text"
-          name="nome"
-          placeholder="Ex: Rex"
-          [(ngModel)]="nome"
-          (blur)="onNomeBlur()"
-        />
+        <input class="field__input" [class.field__input--error]="erros['nome']"
+               type="text" name="nome" placeholder="Ex: Rex"
+               [(ngModel)]="nome" (blur)="onNomeBlur()"/>
         <span class="field__hint">Somente letras · 2–20 caracteres · Primeira letra maiúscula</span>
         @if (erros['nome']) {
           <span class="field__error">{{ erros['nome'] }}</span>
@@ -34,17 +28,9 @@
         <label class="field__label">Espécie *</label>
         <div class="field__especies">
           @for (esp of especies; track esp.value) {
-            <label
-              class="especie-card"
-              [class.especie-card--ativo]="especie === esp.value"
-            >
-              <input
-                type="radio"
-                [value]="esp.value"
-                name="especie"
-                [(ngModel)]="especie"
-                hidden
-              />
+            <label class="especie-card" [class.especie-card--ativo]="especie === esp.value">
+              <input type="radio" [value]="esp.value" name="especie"
+                     [(ngModel)]="especie" hidden/>
               <span class="especie-card__emoji">{{ esp.emoji }}</span>
               <span class="especie-card__label">{{ esp.label }}</span>
             </label>
@@ -58,16 +44,9 @@
       <!-- Idade -->
       <div class="field field--half">
         <label class="field__label">Idade (anos) *</label>
-        <input
-          class="field__input"
-          [class.field__input--error]="erros['idade']"
-          type="number"
-          name="idade"
-          placeholder="Ex: 3"
-          min="0"
-          max="30"
-          [(ngModel)]="idade"
-        />
+        <input class="field__input" [class.field__input--error]="erros['idade']"
+               type="number" name="idade" placeholder="Ex: 3"
+               min="0" max="30" [(ngModel)]="idade"/>
         <span class="field__hint">Número inteiro</span>
         @if (erros['idade']) {
           <span class="field__error">{{ erros['idade'] }}</span>
@@ -76,13 +55,9 @@
 
       <!-- Ações -->
       <div class="animal-form__actions">
-        <button type="button" class="btn-outline-dark" (click)="voltar()">
-          Cancelar
-        </button>
+        <button type="button" class="btn-outline-dark" (click)="voltar()">Cancelar</button>
         <button type="submit" class="btn-amber" [disabled]="salvando">
-          {{ salvando
-              ? 'Salvando…'
-              : modoEdicao ? 'Salvar alterações' : 'Cadastrar animal' }}
+          {{ salvando ? 'Salvando…' : modoEdicao ? 'Salvar alterações' : 'Cadastrar animal' }}
         </button>
       </div>
 

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DoacaoService } from '../../services/doacao';
 import { ToastService } from '../../services/toast';
-import { Animal, Especie, ESPECIES } from '../../models/Animal.model';
+import { Especie, ESPECIES } from '../../models/Animal.model';
 
 @Component({
   selector: 'app-animal-form',
@@ -22,10 +22,10 @@ export class AnimalFormComponent implements OnInit {
 
   readonly especies = ESPECIES;
 
-  // Campos do formulário
-  nome:    string           = '';
-  especie: Especie | null   = null;
-  idade:   number | null    = null;
+  // Campos separados — evita enviar objeto com campos extras à API
+  nome:    string         = '';
+  especie: Especie | null = null;
+  idade:   number | null  = null;
 
   constructor(
     private doacao: DoacaoService,
@@ -35,22 +35,27 @@ export class AnimalFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id && id !== 'novo') {
+    // A rota é /animais/:id/editar — o paramMap tem 'id'
+    const idParam = this.route.snapshot.paramMap.get('id');
+
+    if (idParam && idParam !== 'novo') {
       this.modoEdicao = true;
-      this.animalId   = Number(id);
+      this.animalId   = Number(idParam);
+
       this.doacao.getAnimalById(this.animalId).subscribe({
         next: (a) => {
           this.nome    = a.nome;
           this.especie = a.especie;
           this.idade   = a.idade;
         },
-        error: () => this.toast.show('Erro ao carregar animal.', 'erro'),
+        error: () => {
+          this.toast.show('Animal não encontrado.', 'erro');
+          this.router.navigate(['/animais']);
+        },
       });
     }
   }
 
-  // Aplica Title Case ao sair do campo — regra da API Flask
   onNomeBlur(): void {
     this.nome = this.toTitleCase(this.nome.trim());
   }
@@ -92,32 +97,33 @@ export class AnimalFormComponent implements OnInit {
     if (!this.validar()) return;
     this.salvando = true;
 
-    const nomeFormatado = this.toTitleCase(this.nome.trim());
+    const nome  = this.toTitleCase(this.nome.trim());
+    const idade = Number(this.idade);
 
     if (this.modoEdicao && this.animalId) {
-      // PUT — atualiza animal existente
+      // PUT /animais/:id
       this.doacao.atualizarAnimal(this.animalId, {
-        nome:    nomeFormatado,
+        nome,
         especie: this.especie!,
-        idade:   Number(this.idade),
+        idade,
       }).subscribe({
-        next:  () => { this.toast.show(`${nomeFormatado} atualizado!`, 'ok'); this.router.navigate(['/animais']); },
-        error: (err) => { this.exibirErroApi(err); this.salvando = false; },
+        next:  () => { this.toast.show(`${nome} atualizado!`, 'ok'); this.router.navigate(['/animais']); },
+        error: (err) => { this.exibirErro(err); this.salvando = false; },
       });
     } else {
-      // POST — a API Flask NÃO exige id; envia apenas nome, especie, idade
+      // POST /animais — não envia id
       this.doacao.cadastrarAnimal({
-        nome:    nomeFormatado,
+        nome,
         especie: this.especie!,
-        idade:   Number(this.idade),
-      } as any).subscribe({
-        next:  () => { this.toast.show(`${nomeFormatado} cadastrado!`, 'ok'); this.router.navigate(['/animais']); },
-        error: (err) => { this.exibirErroApi(err); this.salvando = false; },
+        idade,
+      }).subscribe({
+        next:  () => { this.toast.show(`${nome} cadastrado!`, 'ok'); this.router.navigate(['/animais']); },
+        error: (err) => { this.exibirErro(err); this.salvando = false; },
       });
     }
   }
 
-  private exibirErroApi(err: any): void {
+  private exibirErro(err: any): void {
     const msg =
       err?.error?.erro ||
       err?.error?.Mensagem ||
@@ -125,5 +131,7 @@ export class AnimalFormComponent implements OnInit {
     this.toast.show(msg, 'erro');
   }
 
-  voltar(): void { this.router.navigate(['/animais']); }
+  voltar(): void {
+    this.router.navigate(['/animais']);
+  }
 }

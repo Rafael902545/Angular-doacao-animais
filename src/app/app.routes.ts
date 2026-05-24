@@ -3,21 +3,22 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+  // ── HOME ────────────────────────────────────────────────────────────────
   {
     path: '',
     loadComponent: () =>
       import('./components/home/home').then((m) => m.HomeComponent),
   },
 
-  // ── ANIMAIS ──────────────────────────────────────────────────────────────
-  // ATENÇÃO: rotas estáticas ANTES das dinâmicas (:id)
+  // ── ANIMAIS ─────────────────────────────────────────────────────────────
+  // IMPORTANTE: rotas estáticas ANTES das dinâmicas (:id)
   {
     path: 'animais',
     loadComponent: () =>
       import('./components/animal-lista/animal-lista').then((m) => m.AnimalListaComponent),
   },
   {
-    path: 'animais/novo',   // deve vir ANTES de 'animais/:id'
+    path: 'animais/novo',          // DEVE vir antes de 'animais/:id'
     loadComponent: () =>
       import('./components/animal-form/animal-form').then((m) => m.AnimalFormComponent),
   },
@@ -27,15 +28,14 @@ export const routes: Routes = [
       import('./components/animal-form/animal-form').then((m) => m.AnimalFormComponent),
   },
 
-  // ── ABRIGOS ───────────────────────────────────────────────────────────────
+  // ── ABRIGOS ─────────────────────────────────────────────────────────────
   {
     path: 'abrigos',
     loadComponent: () =>
       import('./components/abrigos/abrigos').then((m) => m.AbrigosComponent),
   },
 
-  // ── PERFIL / CADASTRO ─────────────────────────────────────────────────────
-  // Mantemos ambos os paths para não quebrar links existentes
+  // ── PERFIL ──────────────────────────────────────────────────────────────
   {
     path: 'perfil',
     loadComponent: () =>
@@ -47,7 +47,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
 
-  // ── FALLBACK ──────────────────────────────────────────────────────────────
+  // ── FALLBACK ────────────────────────────────────────────────────────────
   {
     path: '**',
     redirectTo: '',

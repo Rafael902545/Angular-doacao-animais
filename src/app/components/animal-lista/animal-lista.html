@@ -16,7 +16,8 @@
       <label class="filtros__label">Espécie</label>
       <div class="filtros__chips">
         @for (cat of especies; track cat.value) {
-          <button class="chip" [class.chip--ativo]="filtroEspecie === cat.value"
+          <button class="chip"
+                  [class.chip--ativo]="filtroEspecie === cat.value"
                   (click)="selecionarEspecie(cat.value)">
             {{ cat.emoji }} {{ cat.label }}
           </button>
@@ -67,9 +68,14 @@
               </p>
             </div>
             <div class="animal-card__footer">
-              <button class="btn-amber-sm">Conhecer</button>
-              <button class="btn-icon-edit" (click)="editar($event, animal.id)" title="Editar">✏️</button>
-              <button class="btn-icon-del"  (click)="confirmarDeletar($event, animal)" title="Remover">🗑️</button>
+              <button class="btn-amber-sm"
+                      (click)="editar($event, animal.id)">
+                ✏️ Editar
+              </button>
+              <button class="btn-danger-sm"
+                      (click)="confirmarDeletar($event, animal)">
+                🗑️ Remover
+              </button>
             </div>
           </div>
         }
@@ -78,15 +84,21 @@
   </main>
 </div>
 
-<!-- MODAL -->
+<!-- MODAL CONFIRMAR DELETE -->
 @if (animalParaDeletar) {
   <div class="modal-overlay" (click)="cancelarDeletar()">
     <div class="modal" (click)="$event.stopPropagation()">
       <h3>Remover animal</h3>
-      <p>Tem certeza que deseja remover <strong>{{ animalParaDeletar.nome }}</strong>?</p>
+      <p>
+        Tem certeza que deseja remover
+        <strong>{{ animalParaDeletar.nome }}</strong>?
+        Essa ação não pode ser desfeita.
+      </p>
       <div class="modal__actions">
         <button class="btn-outline-dark" (click)="cancelarDeletar()">Cancelar</button>
-        <button class="btn-danger" (click)="deletar()">Sim, remover</button>
+        <button class="btn-danger" (click)="deletar()" [disabled]="deletando">
+          {{ deletando ? 'Removendo…' : 'Sim, remover' }}
+        </button>
       </div>
     </div>
   </div>
